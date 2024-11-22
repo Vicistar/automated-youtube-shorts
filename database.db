@@ -1,0 +1,34 @@
+import sqlite3
+
+conn = sqlite3.connect('database.db')
+cursor = conn.cursor()
+
+# Users Table
+cursor.execute('''
+CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT UNIQUE,
+    status TEXT DEFAULT 'pending'
+)''')
+
+# Videos Table
+cursor.execute('''
+CREATE TABLE IF NOT EXISTS videos (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT,
+    file_path TEXT,
+    status TEXT DEFAULT 'unused',
+    download_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)''')
+
+# Uploads Table
+cursor.execute('''
+CREATE TABLE IF NOT EXISTS uploads (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    video_id INTEGER,
+    youtube_id TEXT,
+    upload_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)''')
+
+conn.commit()
+conn.close()
